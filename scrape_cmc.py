@@ -21,6 +21,10 @@ def everyday(year, month):
 
 
 def create_df(timestamps):
+    """
+    input = dates of wanted snapshots
+    output = pandas dataframe with all information on coins from cmc for all the dates
+    """
     df = pd.DataFrame()
     for t in timestamps:
         #print('fetching data from', t)
@@ -61,8 +65,10 @@ def fetch_all():
             daily_ts.append(d.strftime("%Y, %m, %d").replace(',','').replace(' ', ''))
         temp = create_df(daily_ts)
         df = df.append(temp, ignore_index=True)
-        print('month nr. {} done'.format(n))
+        #print('month nr. {} done'.format(n))
+    return df
 
         
 df = fetch_all()
+print('all done, saving to csv')
 df.to_csv('daily_mktcap_2018.csv')
