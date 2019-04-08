@@ -53,13 +53,13 @@ def create_df(timestamps):
     df.Price = df.Price.str.replace('$', '')
     df = df.drop(['#', 'Name', 'Circulating Supply', 'Volume (24h)','% 1h', '% 24h', '% 7d', 'delete'], axis=1)
     df.Date = pd.to_datetime(df.Date, format='%Y%m%d', errors='ignore')
-    df = df.set_index('Date')
     return df
 
 
 def fetch_all():
+    print('Starting to fetch Data from 2018')
     df = pd.DataFrame()
-    for n in tqdm(range(1, 13)):
+    for n in tqdm(range(1, 2)):
         daily_ts = []
         for d in everyday(2018, n):
             daily_ts.append(d.strftime("%Y, %m, %d").replace(',','').replace(' ', ''))
@@ -71,4 +71,4 @@ def fetch_all():
         
 df = fetch_all()
 print('all done, saving to csv')
-df.to_csv('daily_mktcap_2018.csv')
+df.to_csv('daily_mktcap_2018.csv', index=False)
