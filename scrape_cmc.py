@@ -46,10 +46,11 @@ def create_df(timestamps):
             list_of_cells.append(t)
             all_data.append(list_of_cells)
         temp = pd.DataFrame(all_data[1:])
+        
         df = df.append(temp, ignore_index=True)
     df = df.replace('\n','', regex=True)
     df.columns = ['#', 'Name', 'Symbol', 'MktCap', 'Price', 'Circulating Supply', 'Volume (24h)','% 1h', '% 24h', '% 7d', 'delete', 'Date']
-    df.MktCap = df.MktCap.str.replace(',', '').str.replace('$', '')
+    df.MktCap = df.MktCap.str.replace(',', '').str.replace('$', '').str.replace('?','')
     df.Price = df.Price.str.replace('$', '')
     df = df.drop(['#', 'Name', 'Circulating Supply', 'Volume (24h)','% 1h', '% 24h', '% 7d', 'delete'], axis=1)
     df.Date = pd.to_datetime(df.Date, format='%Y%m%d', errors='ignore')
@@ -59,9 +60,9 @@ def create_df(timestamps):
 def fetch_all():
     print('Starting to fetch Data from 2018')
     df = pd.DataFrame()
-    for n in tqdm(range(1, 2)):
+    for n in tqdm(range(1, 13)):
         daily_ts = []
-        for d in everyday(2018, n):
+        for d in everyday(2017, n):
             daily_ts.append(d.strftime("%Y, %m, %d").replace(',','').replace(' ', ''))
         temp = create_df(daily_ts)
         df = df.append(temp, ignore_index=True)
@@ -71,4 +72,4 @@ def fetch_all():
         
 df = fetch_all()
 print('all done, saving to csv')
-df.to_csv('daily_mktcap_2018.csv', index=False)
+df.to_csv('daily_mktcap_2017.csv', index=False)

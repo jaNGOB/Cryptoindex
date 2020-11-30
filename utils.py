@@ -31,7 +31,7 @@ def weight_df(daily, df_multi, sundays, daily_ts):
     for sun in sundays:
         for day in daily_ts:
             if sun == day:
-                symbols = daily.loc[sun][:]['Symbol'].values.tolist()
+                symbols = daily.loc[sun][:40]['Symbol'].values.tolist()
                 for s in symbols:
                     mktc = df_multi.loc[s][:sun].MktCap.rolling(window=7).mean()
                     if sun not in total_list:
